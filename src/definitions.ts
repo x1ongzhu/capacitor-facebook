@@ -1,3 +1,4 @@
 export interface FacebookPlugin {
-  echo(options: { value: string }): Promise<{ value: string }>;
+    init(options: { appId: string }): Promise<void>;
+    login(options: { scope: string[] | null }): Promise<any>;
 }
