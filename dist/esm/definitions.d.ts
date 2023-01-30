@@ -5,4 +5,9 @@ export interface FacebookPlugin {
     login(options: {
         scope: string[] | null;
     }): Promise<any>;
+    logEvent(options: {
+        name: string;
+        valueToSum: number | void;
+        bundle: Record<string, unknown> | void;
+    }): Promise<void>;
 }

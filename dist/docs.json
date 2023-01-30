@@ -36,12 +36,45 @@
         "docs": "",
         "complexTypes": [],
         "slug": "login"
+      },
+      {
+        "name": "logEvent",
+        "signature": "(options: { name: string; valueToSum: number | void; bundle: Record<string, unknown> | void; }) => Promise<void>",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "{ name: string; valueToSum: number | void; bundle: void | Record<string, unknown>; }"
+          }
+        ],
+        "returns": "Promise<void>",
+        "tags": [],
+        "docs": "",
+        "complexTypes": [
+          "Record"
+        ],
+        "slug": "logevent"
       }
     ],
     "properties": []
   },
   "interfaces": [],
   "enums": [],
-  "typeAliases": [],
+  "typeAliases": [
+    {
+      "name": "Record",
+      "slug": "record",
+      "docs": "Construct a type with a set of properties K of type T",
+      "types": [
+        {
+          "text": "{\r\n    [P in K]: T;\r\n}",
+          "complexTypes": [
+            "K",
+            "T"
+          ]
+        }
+      ]
+    }
+  ],
   "pluginConfigs": []
 }

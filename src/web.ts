@@ -4,13 +4,15 @@ import { WebPlugin } from '@capacitor/core';
 import type { FacebookPlugin } from './definitions';
 
 declare global {
-    interface Window { fbAsyncInit: any; FB: any; }
+    interface Window { fbAsyncInit: any; FB: any; fbq: any; }
 }
 declare var FB: any;
 
 export class FacebookWeb extends WebPlugin implements FacebookPlugin {
-    init(options: { appId: string; }): Promise<void> {
-        console.log('FacebookWeb constructor')
+    async logEvent(options: { name: string; valueToSum: number | void; bundle: void | Record<string, unknown>; }): Promise<void> {
+        window.fbq(options.name, options.valueToSum, options.bundle)
+    }
+    init(options: { appId: string; pixelId: string | void }): Promise<void> {
         return new Promise((resolve) => {
             window.fbAsyncInit = function () {
                 FB.init({
@@ -20,13 +22,27 @@ export class FacebookWeb extends WebPlugin implements FacebookPlugin {
                     version: 'v15.0'
                 });
                 FB.AppEvents.logPageView();
-                resolve()
             };
             if (!document.getElementById('facebook-jssdk')) {
                 var js = document.createElement('script');
                 js.id = 'facebook-jssdk';
                 js.setAttribute('src', "https://connect.facebook.net/en_US/sdk.js");
+                js.onload = () => {
+                    resolve()
+                }
                 document.body.appendChild(js);
+            }
+            if (options.pixelId) {
+                eval(`!function(f,b,e,v,n,t,s)
+                {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+                n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+                if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+                n.queue=[];t=b.createElement(e);t.async=!0;
+                t.src=v;s=b.getElementsByTagName(e)[0];
+                s.parentNode.insertBefore(t,s)}(window, document,'script',
+                'https://connect.facebook.net/en_US/fbevents.js');
+                fbq('init', '${options.pixelId}');
+                fbq('track', 'PageView');`)
             }
         })
 
