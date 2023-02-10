@@ -10,7 +10,11 @@ declare var FB: any;
 
 export class FacebookWeb extends WebPlugin implements FacebookPlugin {
     async logEvent(options: { name: string; valueToSum: number | void; bundle: void | Record<string, unknown>; }): Promise<void> {
-        window.fbq(options.name, options.valueToSum, options.bundle)
+        let type = ['AddPaymentInfo', 'AddToCart', 'AddToWishlist', 'CompleteRegistration',
+            'Contact', 'CustomizeProduct', 'Donate', 'FindLocation', 'InitiateCheckout',
+            'Lead', 'Purchase', 'Schedule', 'Search', 'StartTrial', 'SubmitApplication',
+            'Subscribe', 'ViewContent'].findIndex(i => i == options.name) > -1 ? 'track' : 'trackCustom';
+        window.fbq(type, options.name, options.bundle)
     }
     init(options: { appId: string; autoLogEvent: boolean, pixelId: string | void }): Promise<void> {
         return new Promise((resolve) => {

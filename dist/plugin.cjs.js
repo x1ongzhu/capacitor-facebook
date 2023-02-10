@@ -4,6 +4,27 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 var core = require('@capacitor/core');
 
+exports.PixelEventNames = void 0;
+(function (PixelEventNames) {
+    PixelEventNames["AddPaymentInfo"] = "AddPaymentInfo";
+    PixelEventNames["AddToCart"] = "AddToCart";
+    PixelEventNames["AddToWishlist"] = "AddToWishlist";
+    PixelEventNames["CompleteRegistration"] = "CompleteRegistration";
+    PixelEventNames["Contact"] = "Contact";
+    PixelEventNames["CustomizeProduct"] = "CustomizeProduct";
+    PixelEventNames["Donate"] = "Donate";
+    PixelEventNames["FindLocation"] = "FindLocation";
+    PixelEventNames["InitiateCheckout"] = "InitiateCheckout";
+    PixelEventNames["Lead"] = "Lead";
+    PixelEventNames["Purchase"] = "Purchase";
+    PixelEventNames["Schedule"] = "Schedule";
+    PixelEventNames["Search"] = "Search";
+    PixelEventNames["StartTrial"] = "StartTrial";
+    PixelEventNames["SubmitApplication"] = "SubmitApplication";
+    PixelEventNames["Subscribe"] = "Subscribe";
+    PixelEventNames["ViewContent"] = "ViewContent";
+})(exports.PixelEventNames || (exports.PixelEventNames = {}));
+
 const Facebook = core.registerPlugin('Facebook', {
     web: () => Promise.resolve().then(function () { return web; }).then(m => new m.FacebookWeb()),
 });
@@ -11,7 +32,11 @@ const Facebook = core.registerPlugin('Facebook', {
 /* eslint-disable */
 class FacebookWeb extends core.WebPlugin {
     async logEvent(options) {
-        window.fbq(options.name, options.valueToSum, options.bundle);
+        let type = ['AddPaymentInfo', 'AddToCart', 'AddToWishlist', 'CompleteRegistration',
+            'Contact', 'CustomizeProduct', 'Donate', 'FindLocation', 'InitiateCheckout',
+            'Lead', 'Purchase', 'Schedule', 'Search', 'StartTrial', 'SubmitApplication',
+            'Subscribe', 'ViewContent'].findIndex(i => i == options.name) > -1 ? 'track' : 'trackCustom';
+        window.fbq(type, options.name, options.bundle);
     }
     init(options) {
         return new Promise((resolve) => {

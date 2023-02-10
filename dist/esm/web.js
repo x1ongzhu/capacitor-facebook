@@ -2,7 +2,11 @@
 import { WebPlugin } from '@capacitor/core';
 export class FacebookWeb extends WebPlugin {
     async logEvent(options) {
-        window.fbq(options.name, options.valueToSum, options.bundle);
+        let type = ['AddPaymentInfo', 'AddToCart', 'AddToWishlist', 'CompleteRegistration',
+            'Contact', 'CustomizeProduct', 'Donate', 'FindLocation', 'InitiateCheckout',
+            'Lead', 'Purchase', 'Schedule', 'Search', 'StartTrial', 'SubmitApplication',
+            'Subscribe', 'ViewContent'].findIndex(i => i == options.name) > -1 ? 'track' : 'trackCustom';
+        window.fbq(type, options.name, options.bundle);
     }
     init(options) {
         return new Promise((resolve) => {
