@@ -7,12 +7,12 @@
     "methods": [
       {
         "name": "init",
-        "signature": "(options: { appId: string; }) => Promise<void>",
+        "signature": "(options: { appId: string; autoLogEvent: boolean | true; }) => Promise<void>",
         "parameters": [
           {
             "name": "options",
             "docs": "",
-            "type": "{ appId: string; }"
+            "type": "{ appId: string; autoLogEvent: boolean; }"
           }
         ],
         "returns": "Promise<void>",

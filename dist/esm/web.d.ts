@@ -5,6 +5,7 @@ declare global {
         fbAsyncInit: any;
         FB: any;
         fbq: any;
+        _fbq: any;
     }
 }
 export declare class FacebookWeb extends WebPlugin implements FacebookPlugin {
@@ -15,6 +16,7 @@ export declare class FacebookWeb extends WebPlugin implements FacebookPlugin {
     }): Promise<void>;
     init(options: {
         appId: string;
+        autoLogEvent: boolean;
         pixelId: string | void;
     }): Promise<void>;
     login(options: {

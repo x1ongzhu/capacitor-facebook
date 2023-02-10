@@ -8,6 +8,7 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
+import com.facebook.LoggingBehavior;
 import com.facebook.appevents.AppEventsConstants;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginManager;
@@ -31,13 +32,13 @@ public class FacebookPlugin extends Plugin {
 
     private PluginCall loginCallback;
     private AppEventsLogger logger;
+    private boolean initialized = false;
 
     @Override
     public void load() {
         super.load();
-        FacebookSdk.sdkInitialize(getContext());
-        FacebookSdk.setAutoLogAppEventsEnabled(true);
-        AppEventsLogger.activateApp(getActivity().getApplication());
+        FacebookSdk.setIsDebugEnabled(true);
+        FacebookSdk.addLoggingBehavior(LoggingBehavior.APP_EVENTS);
         CallbackManager callbackManager = CallbackManager.Factory.create();
         LoginManager.getInstance().registerCallback(callbackManager,
                 new FacebookCallback<>() {
@@ -68,6 +69,14 @@ public class FacebookPlugin extends Plugin {
 
     @PluginMethod
     public void init(PluginCall call) {
+        if (!initialized) {
+            boolean autoLogEvent = Boolean.TRUE.equals(call.getBoolean("autoLogEvent", false));
+            FacebookSdk.setAutoLogAppEventsEnabled(autoLogEvent);
+            if (!autoLogEvent) {
+                AppEventsLogger.activateApp(getActivity().getApplication());
+            }
+            initialized = true;
+        }
         call.resolve();
     }
 

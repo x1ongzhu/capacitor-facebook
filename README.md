@@ -26,12 +26,12 @@ npx cap sync
 ### init(...)
 
 ```typescript
-init(options: { appId: string; }) => Promise<void>
+init(options: { appId: string; autoLogEvent: boolean | true; }) => Promise<void>
 ```
 
-| Param         | Type                            |
-| ------------- | ------------------------------- |
-| **`options`** | <code>{ appId: string; }</code> |
+| Param         | Type                                                   |
+| ------------- | ------------------------------------------------------ |
+| **`options`** | <code>{ appId: string; autoLogEvent: boolean; }</code> |
 
 --------------------
 
