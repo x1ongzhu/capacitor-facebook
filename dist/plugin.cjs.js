@@ -60,9 +60,9 @@ class FacebookWeb extends core.WebPlugin {
             }
             if (options.pixelId) {
                 if (!document.querySelector('#fb_pixel')) {
-                    let n = (window.fbq = function () {
+                    let n = window.fbq = function () {
                         n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments);
-                    });
+                    };
                     if (!window._fbq)
                         window._fbq = n;
                     n.push = n;

@@ -38,9 +38,9 @@ export class FacebookWeb extends WebPlugin implements FacebookPlugin {
             }
             if (options.pixelId) {
                 if (!document.querySelector('#fb_pixel')) {
-                    let n: any = (window.fbq = function () {
+                    let n: any = window.fbq = function () {
                         n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments)
-                    })
+                    }
                     if (!window._fbq) window._fbq = n
                     n.push = n
                     n.loaded = !0
